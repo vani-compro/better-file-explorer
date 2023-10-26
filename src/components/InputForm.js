@@ -1,52 +1,40 @@
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { FormControl, Paper, IconButton } from '@mui/material';
-import styled from 'styled-components';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import FolderIcon from '@mui/icons-material/Folder';
-import { useState } from 'react';
+import { TextField, Button } from "@mui/material"
+import styled from "styled-components";
+import { useState } from "react";
 
-const BlockFormControl = styled(FormControl)`
-  /* height: 3rem !important; */
-  flex-direction: row !important;
-`
-
-const MarginalisedTextField = styled(TextField)`
-  margin: 0 1rem !important;
-`
-
-const CustomPaper = styled(Paper)`
-  margin-left: 2.5rem !important;
-  width: fit-content !important;
+const StyledTextField = styled(TextField)`
   background-color: #ddd !important;
+  border-radius: 0.3rem;
 `
-
-export default function InputForm(props) {
+const FlexForm = styled.form`
+  display: flex;
+  margin-left: 2rem;
+`
+const StyledButton = styled(Button)`
+  color: white !important;
+`
+export default function InputForm(props){
   const [inputText, setInputText] = useState('');
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // alert(event);
-    props.setShowName(true);
-    props.setName(inputText);
-    props.setShowForm(false);
-  };
-
   const handleChange = (e) => {
-    setInputText(e.target.value)
+    setInputText(e.target.value);
   }
-
+  const handleSubmit = (e) => {
+    alert('submitted');
+    let location = props.fileStructure;
+    if(props.addType === 'file'){
+      location.files.push(inputText);
+    }else{
+      location.folders[inputText] = {files: [], folders: {}};
+    }
+    props.setFileStructure(location);
+    props.setShowForm(false);
+    console.log(props.fileStructure);
+  }
   return (
-    <CustomPaper>
-      <BlockFormControl>
-        {/* {alert('props ' + props.addType)} */}
-        <IconButton>
-          {props.addType === 'file' ?  <InsertDriveFileIcon /> : <FolderIcon />}
-        </IconButton>
-
-        <MarginalisedTextField value={inputText} onChange={(e)=>handleChange(e)} ></MarginalisedTextField>
-        <Button onClick={(e) => handleSubmit(e)}>Submit</Button>
-      </BlockFormControl>
-    </CustomPaper>
+    <FlexForm onSubmit="handleSubmit">
+      <StyledTextField value={inputText} onChange={(e)=>handleChange(e)} ></StyledTextField>
+      <StyledButton onClick={handleSubmit}>Add</StyledButton>
+    </FlexForm>
   );
 }
