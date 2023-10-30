@@ -15,12 +15,11 @@ const StyledButton = styled(Button)`
 `
 export default function InputForm(props){
   const [inputText, setInputText] = useState('');
-
   const handleChange = (e) => {
     setInputText(e.target.value);
   }
   const handleSubmit = (e) => {
-    alert('submitted');
+    // alert('submitted');
     let location = props.fileStructure;
     if(props.addType === 'file'){
       location.files.push(inputText);
@@ -29,6 +28,8 @@ export default function InputForm(props){
     }
     props.setFileStructure(location);
     props.setShowForm(false);
+    props.setShowName(true);
+    props.setCurrFolder(inputText);
     console.log(props.fileStructure);
   }
   return (
