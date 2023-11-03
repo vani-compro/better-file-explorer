@@ -133,7 +133,7 @@ function App() {
         <Button onClick={nameBtnClicked}>{expand ? <ExpandMore/> : <ExpandLess/>}File Structure</Button>
         <span>
           <Button onClick={()=>createNew('file')}>Add File</Button>
-          <Button onClick={()=>createNew('folder')}>Add Folder</Button>
+          <Button   onClick={()=>createNew('folder')}>Add Folder</Button>
         </span>
       </FlexDiv>
       {showForm && <InputForm addType={addType} fileStructure={fileStructure} setShowForm={(val)=>setShowForm(val) }setFileStructure={(val)=>setFileStructure(val)} setShowName={(val)=>setShowName(val)}/>}
