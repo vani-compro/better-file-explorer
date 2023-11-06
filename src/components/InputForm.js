@@ -13,8 +13,11 @@ const FlexForm = styled.form`
   display: flex;
 `
 export default function InputForm(props){
+  console.log(props.fileStructure);
   const [inputName, setInputName] = useState('');
+
   function formSubmitted(){
+    // console.log(props.fileStructure);
     props.setFormVisible(false);
     let newEntry;
     if(props.type === 'file'){
