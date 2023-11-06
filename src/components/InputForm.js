@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Tooltip } from "@mui/material";
 import { useState } from "react";
 import styled, { css } from "styled-components";
 import './../App.css';
@@ -6,25 +6,18 @@ import './../App.css';
 const WhiteTextField = styled(TextField)`
   background-color: #fff;
   @keyframes shake {
-  0% { transform: translateX(0); }
-  10% { transform: translateX(-5px); }
-  20% { transform: translateX(5px); }
-  30% { transform: translateX(-5px); }
-  40% { transform: translateX(5px); }
-  50% { transform: translateX(-5px); }
-  60% { transform: translateX(5px); }
-  70% { transform: translateX(-5px); }
-  80% { transform: translateX(5px); }
-  90% { transform: translateX(-5px); }
-  100% { transform: translateX(0); }
-}
-  /* if(!validated){
-    border: 2px solid rgb(240, 0, 0);
-    animation: shake 1.5s ease-in-out infinite;
-  } */
-  /* border: '2px solid red !important'; */
-  /* border: ${props => !props.validated && '2px solid rgb(240, 0, 0)'};
-  animation: ${props => !props.validated && 'shake 1.5s ease-in-out 1'}; */
+    0% { transform: translateX(0); }
+    10% { transform: translateX(-5px); }
+    20% { transform: translateX(5px); }
+    30% { transform: translateX(-5px); }
+    40% { transform: translateX(5px); }
+    50% { transform: translateX(-5px); }
+    60% { transform: translateX(5px); }
+    70% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+    90% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+  }
   ${props => !props.validated && css`
     border: 2px solid rgb(240, 0, 0) !important;
     animation: shake 1.5s ease-in-out;
@@ -42,18 +35,46 @@ export default function InputForm(props){
   const [inputName, setInputName] = useState('');
   const [validated, setValidated] = useState(true);
   const [failingValidation, setFailingValidation] = useState('Please enter the correct name.');
-  function validations(){
+
+  function checkEmptyNames(){
     if (inputName === ''){
-      setFailingValidation('Please enter a name.')
+      setFailingValidation(`Please enter a ${props.type} name.`)
       return false;
     }else{
       return true;
     }
   }
+  function checkFileExtensions(){
+    //regex wow
+    // let x = /(?:\.([^.]+))?$/;
+    // let ext = x.exec(inputName)[1];
+    // console.log(ext);
+
+    let fileExt = inputName.split('.').pop();
+    console.log(fileExt);
+    if(fileExt === 'txt' || fileExt === 'htm' || fileExt === 'html' || fileExt === 'css' || fileExt === 'js'){
+      return fileExt;
+    }
+    setFailingValidation(`Please enter a valid ${props.type} extension.`)
+    return false;
+  }
+  function validations(){
+    const emptyNames = checkEmptyNames();
+    if(!emptyNames){
+      return false;
+    }
+    let fileExtensions = true;
+    if(props.type==='file'){
+      fileExtensions = checkFileExtensions();
+      if(!fileExtensions){
+        return false;
+      }
+    }
+    return true;
+  }
 
   function formSubmitted(e){
     e.preventDefault();
-    setValidated(true);
     if(validations()){
       props.setFormVisible(false);
       let newEntry;
@@ -104,7 +125,9 @@ export default function InputForm(props){
   return (
     <li>
       <FlexForm onSubmit={(e)=>formSubmitted(e)}>
-        <WhiteTextField validated={validated} title={validated ? null : failingValidation} value={inputName} onChange={(e)=>handleChange(e)} placeholder="Enter name"></WhiteTextField>
+        <Tooltip title={validated ? null : failingValidation}>
+        <WhiteTextField validated={validated} value={inputName} onChange={(e)=>handleChange(e)} placeholder={"Enter " + props.type + " name."}></WhiteTextField>
+        </Tooltip>
         <WhiteButton type="submit">Add</WhiteButton>
       </FlexForm>
     </li>

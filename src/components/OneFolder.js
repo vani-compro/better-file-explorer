@@ -29,6 +29,7 @@ export default function OneFolder(props){
   const [type, setType] = useState('');
   const [formVisible, setFormVisible] = useState(false);
   const [currentFolder, setCurrentFolder] = useState('');
+  let fileExt='';
   function nameBtnClicked(){
     setArrow(!arrow);
   }

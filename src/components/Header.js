@@ -31,7 +31,6 @@ export default function Header(props){
   const [type, setType] = useState('');
   const [formVisible, setFormVisible] = useState(false);
   const [currentFolder, setCurrentFolder] = useState('');
-
   function nameBtnClicked(){
     setArrow(!arrow);
   }
@@ -65,7 +64,7 @@ export default function Header(props){
         </span>
       </FlexDiv>
       {arrow && <ul>
-        {formVisible && <InputForm setFormVisible={(val)=>setFormVisible(val)} type={type} fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)} currentFolder={currentFolder}/>}
+        {formVisible && <InputForm setFormVisible={(val)=>setFormVisible(val)} type={type} fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)} currentFolder={currentFolder} />}
         <RenderFileStructure fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)}/>
       </ul>}
     </LightDiv>
