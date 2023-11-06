@@ -1,15 +1,13 @@
-import './App.css';
-import Names from './components/Names';
 import { useState } from 'react';
+import './App.css';
+import Header from './components/Header';
+
 
 function App() {
-  const [fileStructure, setFileStructure] = useState({fileStructure : {
-    files: [],
-    folders: {}
-  }})
+  const [fileStructure, setFileStructure] = useState([]);
   return (
     <div className="App">
-      <Names type="folder" name="File Explorer" fileStructure={fileStructure} setFileStructure={(val) => setFileStructure(val)}/>
+      <Header fileStructure={fileStructure} setFileStructure={(val)=>setFileStructure(val)} />
     </div>
   );
 }

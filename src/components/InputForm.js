@@ -1,52 +1,73 @@
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { FormControl, Paper, IconButton } from '@mui/material';
-import styled from 'styled-components';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import FolderIcon from '@mui/icons-material/Folder';
-import { useState } from 'react';
+import { Button, TextField } from "@mui/material";
+import { useState } from "react";
+import styled from "styled-components";
 
-const BlockFormControl = styled(FormControl)`
-  /* height: 3rem !important; */
-  flex-direction: row !important;
+const WhiteTextField = styled(TextField)`
+  background-color: #fff;
 `
-
-const MarginalisedTextField = styled(TextField)`
-  margin: 0 1rem !important;
+const WhiteButton = styled(Button)`
+    background: transparent;
+    color: white !important;
 `
-
-const CustomPaper = styled(Paper)`
-  margin-left: 2.5rem !important;
-  width: fit-content !important;
-  background-color: #ddd !important;
+const FlexForm = styled.form`
+  display: flex;
 `
+export default function InputForm(props){
+  console.log(props.fileStructure);
+  const [inputName, setInputName] = useState('');
 
-export default function InputForm(props) {
-  const [inputText, setInputText] = useState('');
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // alert(event);
-    props.setShowName(true);
-    props.setName(inputText);
-    props.setShowForm(false);
-  };
-
-  const handleChange = (e) => {
-    setInputText(e.target.value)
+  function formSubmitted(){
+    // console.log(props.fileStructure);
+    props.setFormVisible(false);
+    let newEntry;
+    if(props.type === 'file'){
+      newEntry = {
+        name: `${inputName}`,
+        type: 'file',
+      }
+    }else{
+      newEntry = {
+        name: `${inputName}`,
+        type: 'folder',
+        children: []
+      }
+    }
+    let found=false;
+    function pushInFolder(fs){
+      if(found){
+        return;
+      }
+      for(let i in fs){
+        if(fs[i].name === props.currentFolder){
+          fs[i].children.push(newEntry);
+          found=true;
+          return;
+        }
+      }
+      for(let i in fs){
+        if(fs[i].type === 'folder'){
+          pushInFolder(fs[i].children);
+        }
+      }
+    }
+    if(props.currentFolder === 'File Explorer'){
+      let location = props.fileStructure;
+      location.push(newEntry);
+      props.setFileStructure(location);
+    }else{
+      pushInFolder(props.fileStructure);
+    }
+    // console.log(props.fileStructure);
   }
-
+  const handleChange = (e) => {
+    setInputName(e.target.value);
+  }
   return (
-    <CustomPaper>
-      <BlockFormControl>
-        {/* {alert('props ' + props.addType)} */}
-        <IconButton>
-          {props.addType === 'file' ?  <InsertDriveFileIcon /> : <FolderIcon />}
-        </IconButton>
-
-        <MarginalisedTextField value={inputText} onChange={(e)=>handleChange(e)} ></MarginalisedTextField>
-        <Button onClick={(e) => handleSubmit(e)}>Submit</Button>
-      </BlockFormControl>
-    </CustomPaper>
-  );
+    <li>
+      <FlexForm onSubmit={formSubmitted}>
+        <WhiteTextField value={inputName} onChange={(e)=>handleChange(e)} label="Enter name"></WhiteTextField>
+        <WhiteButton type="submit">Add</WhiteButton>
+      </FlexForm>
+    </li>
+  )
 }
