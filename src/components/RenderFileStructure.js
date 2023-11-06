@@ -1,13 +1,24 @@
 import AbcIcon from '@mui/icons-material/Abc';import HtmlIcon from '@mui/icons-material/Html';
 import CssIcon from '@mui/icons-material/Css';
 import JavascriptIcon from '@mui/icons-material/Javascript';
-
-import { Typography, IconButton } from '@mui/material';
+import { Typography, IconButton, Tooltip } from '@mui/material';
 import styled, { css } from 'styled-components';
 import OneFolder from './OneFolder';
+import { useState } from 'react';
 
 const InlineTypography = styled(Typography)`
-  display: inline;
+  display: inline-block;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+`
+const HoverableLi = styled.li`
+  &:hover {
+      background-color: #444;
+    }
 `
 const WhiteIconButton = styled(IconButton)`
   color: white !important;
@@ -35,10 +46,9 @@ function RenderFiles( props ){
   }
   return (
     <>
-      {props.fileStructure.map((ele) => <li>{findExt(ele.name)}
-      {ele.type==='file' ? <><WhiteIconButton fileExt={fileExt}>{fileIcon()}</WhiteIconButton> <InlineTypography>{ele.name}</InlineTypography></> : null }
-      {/* {ele.type==='file' ? <><WhiteIconButton><InsertDriveFileOutlinedIcon /></WhiteIconButton> <InlineTypography>{ele.name}</InlineTypography></> : null } */}
-      </li>)}
+      {props.fileStructure.map((ele) => <HoverableLi>{findExt(ele.name)}
+      {ele.type==='file' ? <><WhiteIconButton fileExt={fileExt}>{fileIcon()}</WhiteIconButton> {ele.name.length > 15 ? <Tooltip title={ele.name}><InlineTypography>{ele.name}</InlineTypography></Tooltip> : <InlineTypography>{ele.name}</InlineTypography>}</> : null }
+      </HoverableLi>)}
     </>
   )
 }

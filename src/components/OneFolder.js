@@ -15,6 +15,10 @@ const WhiteButton = styled(Button)`
 `
 const BoldTypography = styled(Typography)`
   font-weight: 800 !important;
+  white-space: nowrap;
+  width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 const WhiteIconButton = styled(IconButton)`
   color: white !important;
@@ -22,14 +26,15 @@ const WhiteIconButton = styled(IconButton)`
 const FlexDiv = styled.div`
   display: flex;
   justify-content: space-between;
+  &:hover {
+      background-color: #444;
+    }
 `
-
 export default function OneFolder(props){
   const [arrow, setArrow] = useState(false); // 0 = right
   const [type, setType] = useState('');
   const [formVisible, setFormVisible] = useState(false);
   const [currentFolder, setCurrentFolder] = useState('');
-  let fileExt='';
   function nameBtnClicked(){
     setArrow(!arrow);
   }
@@ -43,26 +48,29 @@ export default function OneFolder(props){
 
   }
   return (
-    <>
-    <FlexDiv><WhiteButton onClick={nameBtnClicked}>
+    <li>
+      <FlexDiv>
+        <WhiteButton onClick={nameBtnClicked}>
           <WhiteIconButton>
             {arrow ? <KeyboardArrowDownIcon/> : <KeyboardArrowRightIcon />}
           </WhiteIconButton>
-          <BoldTypography>{props.ele.name}</BoldTypography>
+          <BoldTypography  title={props.ele.name}>{props.ele.name}</BoldTypography>
         </WhiteButton>
         <span>
-        <WhiteIconButton onClick={(e)=>createNew(e, "file", 0)}>
-          <NoteAddOutlinedIcon />
-        </WhiteIconButton>
-        <WhiteIconButton onClick={(e)=>createNew(e, "folder", 0)}>
-          <CreateNewFolderOutlinedIcon />
-        </WhiteIconButton>
-        </span></FlexDiv>{arrow && <ul>
-          {console.log(props.fileStructure)}
+          <WhiteIconButton onClick={(e)=>createNew(e, "file", 0)}>
+            <NoteAddOutlinedIcon />
+          </WhiteIconButton>
+          <WhiteIconButton onClick={(e)=>createNew(e, "folder", 0)}>
+            <CreateNewFolderOutlinedIcon />
+          </WhiteIconButton>
+        </span>
+      </FlexDiv>
+      {arrow && <ul>
+        {console.log(props.fileStructure)}
         {formVisible && <InputForm setFormVisible={(val)=>setFormVisible(val)} type={type} fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)} currentFolder={currentFolder}/>}
         {console.log(props.ele)}
         <RenderFileStructure fileStructure={props.ele.children}/>
       </ul>}
-    </>
+    </li>
   )
 }

@@ -1,5 +1,5 @@
 import { Button, TextField, Tooltip } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import './../App.css';
 
@@ -35,6 +35,12 @@ export default function InputForm(props){
   const [inputName, setInputName] = useState('');
   const [validated, setValidated] = useState(true);
   const [failingValidation, setFailingValidation] = useState('Please enter the correct name.');
+  const inputRef = useRef(null);
+  useEffect(() => {
+    // Focus on the TextField when the component mounts
+    inputRef.current.focus();
+  }, []);
+
 
   function checkEmptyNames(){
     if (inputName === ''){
@@ -45,7 +51,7 @@ export default function InputForm(props){
     }
   }
   function checkFileExtensions(){
-    //regex wow
+    // regex wow
     // let x = /(?:\.([^.]+))?$/;
     // let ext = x.exec(inputName)[1];
     // console.log(ext);
@@ -58,6 +64,30 @@ export default function InputForm(props){
     setFailingValidation(`Please enter a valid ${props.type} extension.`)
     return false;
   }
+
+  function checkIdenticalNames(){
+    let flag = true;
+    props.fileStructure.map((ele) => {
+      if(ele.name === inputName && ele.type === props.type){
+        setFailingValidation(`Please enter a different ${props.type} name.`)
+        flag=false;
+      }
+      return 0;
+    })
+    return flag;
+  }
+
+  function checkInvalidName(){
+    for(let i of inputName){
+      if (i === '<' || i === '>' || i === '*' || i === '?' || i === ':' || i === '"'){
+        setFailingValidation(`Please enter a valid ${props.type} name.`)
+        return false;
+      }
+    }
+    return true;
+  }
+
+
   function validations(){
     const emptyNames = checkEmptyNames();
     if(!emptyNames){
@@ -69,6 +99,14 @@ export default function InputForm(props){
       if(!fileExtensions){
         return false;
       }
+    }
+    const identicalNames = checkIdenticalNames();
+    if(!identicalNames){
+      return false;
+    }
+    const invalidName = checkInvalidName();
+    if(!invalidName){
+      return false;
     }
     return true;
   }
@@ -126,7 +164,8 @@ export default function InputForm(props){
     <li>
       <FlexForm onSubmit={(e)=>formSubmitted(e)}>
         <Tooltip title={validated ? null : failingValidation}>
-        <WhiteTextField validated={validated} value={inputName} onChange={(e)=>handleChange(e)} placeholder={"Enter " + props.type + " name."}></WhiteTextField>
+          <WhiteTextField validated={validated} value={inputName} onChange={(e)=>handleChange(e)} placeholder={"Enter " + props.type + " name."} inputRef={inputRef}
+          ></WhiteTextField>
         </Tooltip>
         <WhiteButton type="submit">Add</WhiteButton>
       </FlexForm>
