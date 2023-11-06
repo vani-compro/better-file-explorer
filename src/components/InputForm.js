@@ -1,7 +1,8 @@
-import { Button, TextField, Tooltip } from "@mui/material";
+import { Button, IconButton, TextField, Tooltip } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import './../App.css';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const WhiteTextField = styled(TextField)`
   background-color: #fff;
@@ -30,8 +31,12 @@ const WhiteButton = styled(Button)`
 const FlexForm = styled.form`
   display: flex;
 `
-export default function InputForm(props){
-  // console.log(props.fileStructure);
+const WhiteIconButton = styled(IconButton)`
+  color: #DE3939 !important;
+`
+
+export default function InputForm(props){ // setFormVisible, type, fileStructure, setFileStructure, currentFolder/
+
   const [inputName, setInputName] = useState('');
   const [validated, setValidated] = useState(true);
   const [failingValidation, setFailingValidation] = useState('Please enter the correct name.');
@@ -117,16 +122,19 @@ export default function InputForm(props){
     if(validations()){
       props.setFormVisible(false);
       let newEntry;
+      let classNumber = Math.ceil(Math.random()*10000);
       if(props.type === 'file'){
         newEntry = {
           name: `${inputName}`,
           type: 'file',
+          number: classNumber
         }
       }else{
         newEntry = {
           name: `${inputName}`,
           type: 'folder',
-          children: []
+          children: [],
+          number: classNumber
         }
       }
       let found=false;
@@ -162,6 +170,9 @@ export default function InputForm(props){
   const handleChange = (e) => {
     setInputName(e.target.value);
   }
+  const cancelBtnclicked = () => {
+    props.setFormVisible(false);
+  }
   return (
     <li>
       <FlexForm onSubmit={(e)=>formSubmitted(e)}>
@@ -170,6 +181,7 @@ export default function InputForm(props){
           ></WhiteTextField>
         </Tooltip>
         <WhiteButton type="submit">Add</WhiteButton>
+        <WhiteIconButton onClick={cancelBtnclicked} ><CancelIcon/></WhiteIconButton>
       </FlexForm>
     </li>
   )
