@@ -4,6 +4,8 @@ import JavascriptIcon from '@mui/icons-material/Javascript';
 import { Typography, IconButton, Tooltip } from '@mui/material';
 import styled, { css } from 'styled-components';
 import OneFolder from './OneFolder';
+import DeleteIcon from '@mui/icons-material/Delete';
+import './../App.css';
 import { useState } from 'react';
 
 const InlineTypography = styled(Typography)`
@@ -28,6 +30,7 @@ const WhiteIconButton = styled(IconButton)`
   ${props => (props.fileExt === "txt" ) && css`color: #66DF5B !important`}
 `
 function RenderFiles( props ){
+  const [deleted, setDeleted] = useState(false);
   let fileExt;
   function findExt(ele){
     // console.log(ele);
@@ -44,20 +47,30 @@ function RenderFiles( props ){
       return <AbcIcon/>
     }
   }
+  function deleteBtnClicked(e, ele){
+    setDeleted(true);
+    for(let i in props.fileStructure){
+      if(props.fileStructure[i] === ele){
+        props.fileStructure.splice(i, 1);
+        console.log(props.fileStructure);
+        return;
+      }
+    }
+  }
   return (
     <>
-      {props.fileStructure.map((ele) => <HoverableLi>{findExt(ele.name)}
-      {ele.type==='file' ? <><WhiteIconButton fileExt={fileExt}>{fileIcon()}</WhiteIconButton> {ele.name.length > 15 ? <Tooltip title={ele.name}><InlineTypography>{ele.name}</InlineTypography></Tooltip> : <InlineTypography>{ele.name}</InlineTypography>}</> : null }
-      </HoverableLi>)}
+      {!deleted && <HoverableLi>{findExt(props.ele.name)}
+      {props.ele.type==='file' ? <><WhiteIconButton fileExt={fileExt}>{fileIcon()}</WhiteIconButton> {props.ele.name.length > 15 ? <Tooltip title={props.ele.name}><InlineTypography>{props.ele.name}</InlineTypography></Tooltip> : <InlineTypography>{props.ele.name}</InlineTypography>}<WhiteIconButton onClick={(e)=>deleteBtnClicked(e, props.ele)}><DeleteIcon/></WhiteIconButton> </> : null }
+      </HoverableLi>}
     </>
   )
 }
 function RenderFolders( props ){
   return (
     <>
-      {props.fileStructure.map((ele) => <li>
-      {ele.type==='folder' ? <OneFolder ele={ele} fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val) }/> : null }
-      </li>)}
+    <li>
+      {props.ele.type==='folder' ? <OneFolder ele={props.ele} fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val) }/> : null }
+    </li>
     </>
   )
 }
@@ -71,8 +84,8 @@ export default function RenderFileStructure(props){
 
   return (
     <>
-      <RenderFiles fileStructure={props.fileStructure} fileType={props.fileType}/>
-      <RenderFolders  fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val) }/>
+    {props.fileStructure.map((ele) => <RenderFiles fileStructure={props.fileStructure} fileType={props.fileType} ele={ele}/>)}
+    {props.fileStructure.map((ele) => <RenderFolders  fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val) } ele={ele}/> )}
     </>
   )
 }

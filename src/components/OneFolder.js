@@ -7,6 +7,7 @@ import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolder';
 import { useState } from 'react';
 import InputForm from './InputForm';
 import RenderFileStructure from './RenderFileStructure';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const WhiteButton = styled(Button)`
     background: transparent;
@@ -35,6 +36,8 @@ export default function OneFolder(props){
   const [type, setType] = useState('');
   const [formVisible, setFormVisible] = useState(false);
   const [currentFolder, setCurrentFolder] = useState('');
+  const [deleted, setDeleted] = useState(false);
+
   function nameBtnClicked(){
     setArrow(!arrow);
   }
@@ -47,8 +50,33 @@ export default function OneFolder(props){
     setFormVisible(true);
 
   }
+  function deleteBtnClicked(e){
+    let found=false;
+    const currentFolder = (e.currentTarget.parentElement.firstChild.firstChild.nextSibling.innerHTML);
+    function deleteFolder(fs){
+      if(found){
+        return;
+      }
+      for(let i in fs){
+        if(fs[i].name === currentFolder){
+          // fs[i].children.push(newEntry);
+          fs.splice(i, 1);
+          found=true;
+          return;
+        }
+      }
+      for(let i in fs){
+        if(fs[i].type === 'folder'){
+          deleteFolder(fs[i].children);
+        }
+      }
+    }
+    deleteFolder(props.fileStructure);
+    console.log(props.fileStructure);
+    setDeleted(true);
+  }
   return (
-    <li>
+    !deleted && <li>
       <FlexDiv>
         <WhiteButton onClick={nameBtnClicked}>
           <WhiteIconButton>
@@ -56,6 +84,9 @@ export default function OneFolder(props){
           </WhiteIconButton>
           <BoldTypography  title={props.ele.name}>{props.ele.name}</BoldTypography>
         </WhiteButton>
+        <WhiteIconButton onClick={(e)=>deleteBtnClicked(e)}>
+          <DeleteIcon />
+        </WhiteIconButton>
         <span>
           <WhiteIconButton onClick={(e)=>createNew(e, "file", 0)}>
             <NoteAddOutlinedIcon />

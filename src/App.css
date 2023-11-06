@@ -2,7 +2,9 @@ body{
   background-color:  #222;
   color:  #ddd;
 }
-
+.display-none{
+  display: none;
+}
 @keyframes shake {
   0% { transform: translateX(0); }
   10% { transform: translateX(-5px); }
