@@ -84,10 +84,11 @@ export default function OneFolder(props){
           </WhiteIconButton>
           <BoldTypography  title={props.ele.name}>{props.ele.name}</BoldTypography>
         </WhiteButton>
-        <WhiteIconButton onClick={(e)=>deleteBtnClicked(e)}>
-          <DeleteIcon />
-        </WhiteIconButton>
+
         <span>
+          <WhiteIconButton onClick={(e)=>deleteBtnClicked(e)}>
+            <DeleteIcon />
+          </WhiteIconButton>
           <WhiteIconButton onClick={(e)=>createNew(e, "file", 0)}>
             <NoteAddOutlinedIcon />
           </WhiteIconButton>

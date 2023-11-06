@@ -20,7 +20,9 @@ const InlineTypography = styled(Typography)`
 const HoverableLi = styled.li`
   &:hover {
       background-color: #444;
-    }
+  }
+  display: flex;
+  justify-content: space-between;
 `
 const WhiteIconButton = styled(IconButton)`
   color: white !important;
@@ -29,6 +31,7 @@ const WhiteIconButton = styled(IconButton)`
   ${props => (props.fileExt === "js" ) && css`color: #FAB337 !important`}
   ${props => (props.fileExt === "txt" ) && css`color: #66DF5B !important`}
 `
+// const FlexSpan = styled.span
 function RenderFiles( props ){
   const [deleted, setDeleted] = useState(false);
   let fileExt;
@@ -59,9 +62,25 @@ function RenderFiles( props ){
   }
   return (
     <>
-      {!deleted && <HoverableLi>{findExt(props.ele.name)}
-      {props.ele.type==='file' ? <><WhiteIconButton fileExt={fileExt}>{fileIcon()}</WhiteIconButton> {props.ele.name.length > 15 ? <Tooltip title={props.ele.name}><InlineTypography>{props.ele.name}</InlineTypography></Tooltip> : <InlineTypography>{props.ele.name}</InlineTypography>}<WhiteIconButton onClick={(e)=>deleteBtnClicked(e, props.ele)}><DeleteIcon/></WhiteIconButton> </> : null }
-      </HoverableLi>}
+      {!deleted &&
+        <HoverableLi>{findExt(props.ele.name)}
+          {props.ele.type==='file' ?
+          <>
+            <span>
+              <WhiteIconButton fileExt={fileExt}>
+                {fileIcon()}
+              </WhiteIconButton>
+              {props.ele.name.length > 15 ?
+              <Tooltip title={props.ele.name}>
+                <InlineTypography>{props.ele.name}</InlineTypography>
+              </Tooltip> :
+              <InlineTypography>{props.ele.name}</InlineTypography>}
+            </span>
+              <WhiteIconButton onClick={(e)=>deleteBtnClicked(e, props.ele)}>
+              <DeleteIcon/>
+            </WhiteIconButton>
+          </> : null }
+        </HoverableLi>}
     </>
   )
 }
