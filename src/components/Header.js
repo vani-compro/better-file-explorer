@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { Button, IconButton, Typography } from "@mui/material"
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
-import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
+import NoteAddOutlinedIcon from '@mui/icons-material/NoteAdd';
+import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolder';
 import { useState } from "react";
 import InputForm from "./InputForm";
 import RenderFileStructure from "./RenderFileStructure";
@@ -12,7 +12,9 @@ const WhiteButton = styled(Button)`
     background: transparent;
     color: white !important;
 `
-
+const BoldTypography = styled(Typography)`
+font-weight: 800 !important;
+`
 const WhiteIconButton = styled(IconButton)`
   color: white !important;
 `
@@ -51,7 +53,7 @@ export default function Header(props){
           <WhiteIconButton>
             {arrow ? <KeyboardArrowDownIcon/> : <KeyboardArrowRightIcon />}
           </WhiteIconButton>
-          <Typography>File Explorer</Typography>
+          <BoldTypography>File Explorer</BoldTypography>
         </WhiteButton>
         <span>
         <WhiteIconButton onClick={(e)=>createNew(e, "file", 0)}>
@@ -62,7 +64,7 @@ export default function Header(props){
         </WhiteIconButton>
         </span>
       </FlexDiv>
-      {arrow && <ul id="level0">
+      {arrow && <ul>
         {formVisible && <InputForm setFormVisible={(val)=>setFormVisible(val)} type={type} fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)} currentFolder={currentFolder}/>}
         <RenderFileStructure fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)}/>
       </ul>}

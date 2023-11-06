@@ -2,8 +2,8 @@ import { Typography, IconButton, Button } from '@mui/material';
 import styled from 'styled-components';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
-import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
+import NoteAddOutlinedIcon from '@mui/icons-material/NoteAdd';
+import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolder';
 import { useState } from 'react';
 import InputForm from './InputForm';
 import RenderFileStructure from './RenderFileStructure';
@@ -13,7 +13,9 @@ const WhiteButton = styled(Button)`
     color: white !important;
     padding: 0 !important;
 `
-
+const BoldTypography = styled(Typography)`
+  font-weight: 800 !important;
+`
 const WhiteIconButton = styled(IconButton)`
   color: white !important;
 `
@@ -45,7 +47,7 @@ export default function OneFolder(props){
           <WhiteIconButton>
             {arrow ? <KeyboardArrowDownIcon/> : <KeyboardArrowRightIcon />}
           </WhiteIconButton>
-          <Typography>{props.ele.name}</Typography>
+          <BoldTypography>{props.ele.name}</BoldTypography>
         </WhiteButton>
         <span>
         <WhiteIconButton onClick={(e)=>createNew(e, "file", 0)}>
@@ -54,7 +56,7 @@ export default function OneFolder(props){
         <WhiteIconButton onClick={(e)=>createNew(e, "folder", 0)}>
           <CreateNewFolderOutlinedIcon />
         </WhiteIconButton>
-        </span></FlexDiv>{arrow && <ul id="level0">
+        </span></FlexDiv>{arrow && <ul>
           {console.log(props.fileStructure)}
         {formVisible && <InputForm setFormVisible={(val)=>setFormVisible(val)} type={type} fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)} currentFolder={currentFolder}/>}
         {console.log(props.ele)}
