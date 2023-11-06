@@ -38,7 +38,6 @@ export default function Header(props){
       setArrow(!arrow);
     }
     console.log(e.currentTarget.parentElement.parentElement.firstChild.firstChild.nextSibling.innerHTML);
-    // setCurrentFolder(e.currentTarget.parentElement.parentElement.classList[2]);
     setCurrentFolder(e.currentTarget.parentElement.parentElement.firstChild.firstChild.nextSibling.innerHTML);
     setType(type);
     setFormVisible(true);

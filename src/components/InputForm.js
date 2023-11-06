@@ -17,7 +17,6 @@ export default function InputForm(props){
   const [inputName, setInputName] = useState('');
 
   function formSubmitted(){
-    // console.log(props.fileStructure);
     props.setFormVisible(false);
     let newEntry;
     if(props.type === 'file'){
@@ -57,7 +56,6 @@ export default function InputForm(props){
     }else{
       pushInFolder(props.fileStructure);
     }
-    // console.log(props.fileStructure);
   }
   const handleChange = (e) => {
     setInputName(e.target.value);

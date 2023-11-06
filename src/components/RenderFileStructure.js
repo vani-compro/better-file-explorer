@@ -17,24 +17,9 @@ export default function RenderFileStructure(props){
   return (
 
     <>
-      {/* {console.log(props.fileStructure)} */}
       {props.fileStructure.map((ele) => <li>
-        {ele.type==='file' ? <><WhiteIconButton><InsertDriveFileOutlinedIcon /></WhiteIconButton> <InlineTypography>{ele.name}</InlineTypography></> : <OneFolder ele={ele} fileStructure={props.fileStructure}/>}
+        {ele.type==='file' ? <><WhiteIconButton><InsertDriveFileOutlinedIcon /></WhiteIconButton> <InlineTypography>{ele.name}</InlineTypography></> : <OneFolder ele={ele} fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val) }/>}
       </li>)}
     </>
   )
 }
-
-/*
-<WhiteButton><WhiteIconButton><KeyboardArrowRightIcon /></WhiteIconButton><WhiteIconButton><FolderOutlinedIcon /></WhiteIconButton><InlineTypography>{ele.name}</InlineTypography></WhiteButton>
-*/
-
-
-
-
-
-/*
-
-[{},{ [] },{},{},{},{ [] },{}]
-
-*/
