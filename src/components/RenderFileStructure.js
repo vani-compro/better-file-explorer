@@ -30,7 +30,7 @@ const WhiteIconButton = styled(IconButton)`
 function RenderFiles( props ){
   let fileExt;
   function findExt(ele){
-    console.log(ele);
+    // console.log(ele);
     fileExt = ele.split('.').pop();
   }
   function fileIcon(){

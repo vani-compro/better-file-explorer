@@ -31,7 +31,7 @@ const FlexForm = styled.form`
   display: flex;
 `
 export default function InputForm(props){
-  console.log(props.fileStructure);
+  // console.log(props.fileStructure);
   const [inputName, setInputName] = useState('');
   const [validated, setValidated] = useState(true);
   const [failingValidation, setFailingValidation] = useState('Please enter the correct name.');
@@ -54,10 +54,10 @@ export default function InputForm(props){
     // regex wow
     // let x = /(?:\.([^.]+))?$/;
     // let ext = x.exec(inputName)[1];
-    // console.log(ext);
+    // // console.log(ext);
 
     let fileExt = inputName.split('.').pop();
-    console.log(fileExt);
+    // console.log(fileExt);
     if(fileExt === 'txt' || fileExt === 'htm' || fileExt === 'html' || fileExt === 'css' || fileExt === 'js'){
       return fileExt;
     }
@@ -66,6 +66,7 @@ export default function InputForm(props){
   }
 
   function checkIdenticalNames(){
+    console.log(props.fileStructure);
     let flag = true;
     props.fileStructure.map((ele) => {
       if(ele.name === inputName && ele.type === props.type){
@@ -100,7 +101,7 @@ export default function InputForm(props){
         return false;
       }
     }
-    const identicalNames = checkIdenticalNames();
+    const identicalNames = checkIdenticalNames(props.fileStructure);
     if(!identicalNames){
       return false;
     }
@@ -153,6 +154,7 @@ export default function InputForm(props){
       }else{
         pushInFolder(props.fileStructure);
       }
+      // console.log(props.fileStructure);
     }else{
       setValidated(false);
     }

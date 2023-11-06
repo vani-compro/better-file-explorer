@@ -10,6 +10,7 @@ function App() {
       <Header fileStructure={fileStructure} setFileStructure={(val)=>setFileStructure(val)} />
     </div>
   );
+
 }
 
 export default App;
