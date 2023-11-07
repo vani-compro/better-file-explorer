@@ -20,6 +20,7 @@ const BoldTypography = styled(Typography)`
   width: 10rem;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: justify;
 `
 const WhiteIconButton = styled(IconButton)`
   color: white !important;

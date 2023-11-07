@@ -120,7 +120,7 @@ export default function RenderFileStructure(props){
   return (
     renderAgain && <>
       {props.fileStructure.map((ele) => <RenderFiles fileStructure={props.fileStructure} fileType={props.fileType} ele={ele} setFileStructure={(val)=>props.setFileStructure(val)} setRenderAgain={(val)=>setRenderAgain(val)} />)}
-      {props.fileStructure.map((ele) => <RenderFolders  fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val) } ele={ele}/> )}
+      {props.fileStructure.map((ele) => <RenderFolders fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val) } ele={ele}/> )}
     </>
   )
 }
