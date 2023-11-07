@@ -99,10 +99,8 @@ export default function OneFolder(props){
         </span>
       </FlexDiv>
       {arrow && <ul>
-        {/* {console.log(props.fileStructure)} */}
-        {formVisible && <InputForm setFormVisible={(val)=>setFormVisible(val)} type={type} fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)} currentFolder={currentFolder}/>}
-        {/* {console.   log(props.ele)} */}
-        <RenderFileStructure fileStructure={props.ele.children}/>
+        {formVisible && <InputForm setFormVisible={(val)=>setFormVisible(val)} type={type} fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)} currentFolder={currentFolder} level={props.level+1}/>}
+        <RenderFileStructure fileStructure={props.ele.children} level={props.level+1}/>
       </ul>}
     </li>
   )

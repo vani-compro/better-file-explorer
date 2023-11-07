@@ -35,7 +35,7 @@ const WhiteIconButton = styled(IconButton)`
   color: #DE3939 !important;
 `
 
-export default function InputForm(props){ // setFormVisible, type, fileStructure, setFileStructure, currentFolder/
+export default function InputForm(props){ // setFormVisible, type, fileStructure, setFileStructure, currentFolder, level
 
   const [inputName, setInputName] = useState('');
 
@@ -80,7 +80,7 @@ export default function InputForm(props){ // setFormVisible, type, fileStructure
     console.log(props.fileStructure);
     let flag = true;
     props.fileStructure.map((ele) => {
-      if(ele.name === inputName && ele.type === props.type){
+      if(ele.name === inputName && ele.type === props.type && ele.level === props.level){
         setFailingValidation(`Please enter a different ${props.type} name.`)
         flag=false;
       }
@@ -134,7 +134,7 @@ export default function InputForm(props){ // setFormVisible, type, fileStructure
         for(let i in location){
           if(location[i] === props.ele){
             location.splice(i, 1);
-            location.push({name: `${inputName}`, type: 'file', number: newNumber});
+            location.push({name: `${inputName}`, type: 'file', number: newNumber, level:props.level});
             props.setFileStructure(location);
           }
         }
@@ -150,14 +150,16 @@ export default function InputForm(props){ // setFormVisible, type, fileStructure
         newEntry = {
           name: `${inputName}`,
           type: 'file',
-          number: classNumber
+          number: classNumber,
+          level: props.level
         }
       }else{
         newEntry = {
           name: `${inputName}`,
           type: 'folder',
           children: [],
-          number: classNumber
+          number: classNumber,
+          level: props.level
         }
       }
       let found=false;

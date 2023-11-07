@@ -71,8 +71,8 @@ export default function Header(props){
         </span>
       </FlexDiv>
       {arrow && <ul>
-        {formVisible && <InputForm setFormVisible={(val)=>setFormVisible(val)} type={type} fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)} currentFolder={currentFolder} />}
-        <RenderFileStructure fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)}/>
+        {formVisible && <InputForm setFormVisible={(val)=>setFormVisible(val)} type={type} fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)} currentFolder={currentFolder} level={0}/>}
+        <RenderFileStructure fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)} level={0}/>
       </ul>}
     </LightDiv>
   )
