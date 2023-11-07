@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button, IconButton, Typography } from "@mui/material"
+import { Button, IconButton, Typography, Tooltip } from "@mui/material"
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAdd';
@@ -55,12 +55,19 @@ export default function Header(props){
           <BoldTypography>File Explorer</BoldTypography>
         </WhiteButton>
         <span>
-        <WhiteIconButton onClick={(e)=>createNew(e, "file", 0)}>
-          <NoteAddOutlinedIcon />
-        </WhiteIconButton>
-        <WhiteIconButton onClick={(e)=>createNew(e, "folder", 0)}>
-          <CreateNewFolderOutlinedIcon />
-        </WhiteIconButton>
+        <Tooltip title="add file.">
+          <WhiteIconButton onClick={(e)=>createNew(e, "file", 0)}>
+            <NoteAddOutlinedIcon />
+          </WhiteIconButton>
+        </Tooltip>
+
+        <Tooltip title="add folder.">
+          <WhiteIconButton onClick={(e)=>createNew(e, "folder", 0)}>
+            <CreateNewFolderOutlinedIcon />
+          </WhiteIconButton>
+        </Tooltip>
+
+
         </span>
       </FlexDiv>
       {arrow && <ul>

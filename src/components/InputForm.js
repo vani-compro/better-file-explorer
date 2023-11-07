@@ -38,6 +38,12 @@ const WhiteIconButton = styled(IconButton)`
 export default function InputForm(props){ // setFormVisible, type, fileStructure, setFileStructure, currentFolder/
 
   const [inputName, setInputName] = useState('');
+
+  useEffect(()=>{
+    if(props.fromDelete==='1'){
+      setInputName(props.ele.name)
+    }
+  }, [props.fromDelete]);
   const [validated, setValidated] = useState(true);
   const [failingValidation, setFailingValidation] = useState('Please enter the correct name.');
   const inputRef = useRef(null);
@@ -134,6 +140,7 @@ export default function InputForm(props){ // setFormVisible, type, fileStructure
         }
         props.setFormVisible(false);
         props.setRenderAgain(Math.ceil(Math.random()*10000));
+        props.setDeleted(false);
         return;
       }
       props.setFormVisible(false);
@@ -188,6 +195,9 @@ export default function InputForm(props){ // setFormVisible, type, fileStructure
   }
   const cancelBtnclicked = () => {
     props.setFormVisible(false);
+    if(props.fromDelete==='1'){
+      props.setDeleted(false);
+    }
   }
   return (
     <li>
@@ -197,7 +207,7 @@ export default function InputForm(props){ // setFormVisible, type, fileStructure
           ></WhiteTextField>
         </Tooltip>
         <WhiteButton type="submit">Add</WhiteButton>
-        <WhiteIconButton onClick={cancelBtnclicked} ><CancelIcon/></WhiteIconButton>
+        <Tooltip title="cancel"><WhiteIconButton onClick={cancelBtnclicked} ><CancelIcon/></WhiteIconButton></Tooltip>
       </FlexForm>
     </li>
   )

@@ -5,9 +5,12 @@ import Header from './components/Header';
 
 function App() {
   const [fileStructure, setFileStructure] = useState([]);
+  const callSetFileStructure = (val) => {
+    setFileStructure(val);
+  }
   return (
     <div className="App">
-      <Header fileStructure={fileStructure} setFileStructure={(val)=>setFileStructure(val)} />
+      <Header fileStructure={fileStructure} setFileStructure={callSetFileStructure} />
     </div>
   );
 
