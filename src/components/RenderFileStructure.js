@@ -7,6 +7,8 @@ import OneFolder from './OneFolder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './../App.css';
 import { useState } from 'react';
+import EditIcon from '@mui/icons-material/Edit';
+import InputForm from './InputForm';
 
 const InlineTypography = styled(Typography)`
   display: inline-block;
@@ -34,6 +36,8 @@ const WhiteIconButton = styled(IconButton)`
 // const FlexSpan = styled.span
 function RenderFiles( props ){
   const [deleted, setDeleted] = useState(false);
+  const [formVisible, setFormVisible] = useState(false);
+
   let fileExt;
   function findExt(ele){
     // console.log(ele);
@@ -60,6 +64,10 @@ function RenderFiles( props ){
       }
     }
   }
+  function editBtnClicked(e, ele){
+    console.log(ele.name);
+    setFormVisible(true);
+  }
   return (
     <>
       {!deleted &&
@@ -76,11 +84,17 @@ function RenderFiles( props ){
               </Tooltip> :
               <InlineTypography>{props.ele.name}</InlineTypography>}
             </span>
+              <span>
+              <WhiteIconButton onClick={(e)=>editBtnClicked(e, props.ele)}>
+                <EditIcon/>
+              </WhiteIconButton>
               <WhiteIconButton onClick={(e)=>deleteBtnClicked(e, props.ele)}>
-              <DeleteIcon/>
-            </WhiteIconButton>
+                <DeleteIcon/>
+              </WhiteIconButton>
+              </span>
           </> : null }
         </HoverableLi>}
+        {formVisible && <InputForm setFormVisible={(val)=>setFormVisible(val)} type='file' fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)} currentFolder={props.fileStructure} fromDelete='1' ele={props.ele} deleteBtnClicked={(e, ele)=> deleteBtnClicked(e, ele) } setRenderAgain={(val)=>props.setRenderAgain(val)}/>}
     </>
   )
 }
@@ -96,15 +110,17 @@ function RenderFolders( props ){
 
 export default function RenderFileStructure(props){
 
+  const [renderAgain, setRenderAgain] = useState(1);
+
   props.fileStructure.sort((a, b) => {
     // Use the localeCompare() method to compare strings
     return a.name.localeCompare(b.name);
   });
 
   return (
-    <>
-    {props.fileStructure.map((ele) => <RenderFiles fileStructure={props.fileStructure} fileType={props.fileType} ele={ele}/>)}
-    {props.fileStructure.map((ele) => <RenderFolders  fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val) } ele={ele}/> )}
+    renderAgain && <>
+      {props.fileStructure.map((ele) => <RenderFiles fileStructure={props.fileStructure} fileType={props.fileType} ele={ele} setFileStructure={(val)=>props.setFileStructure(val)} setRenderAgain={(val)=>setRenderAgain(val)} />)}
+      {props.fileStructure.map((ele) => <RenderFolders  fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val) } ele={ele}/> )}
     </>
   )
 }

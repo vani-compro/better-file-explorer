@@ -120,6 +120,22 @@ export default function InputForm(props){ // setFormVisible, type, fileStructure
   function formSubmitted(e){
     e.preventDefault();
     if(validations()){
+      if(props.fromDelete === '1'){
+        // props.setNewName(inputName);
+        let location = props.fileStructure;
+        let newNumber = props.ele.number;
+        // props.deleteBtnClicked(props.e, props.ele);
+        for(let i in location){
+          if(location[i] === props.ele){
+            location.splice(i, 1);
+            location.push({name: `${inputName}`, type: 'file', number: newNumber});
+            props.setFileStructure(location);
+          }
+        }
+        props.setFormVisible(false);
+        props.setRenderAgain(Math.ceil(Math.random()*10000));
+        return;
+      }
       props.setFormVisible(false);
       let newEntry;
       let classNumber = Math.ceil(Math.random()*10000);
