@@ -134,7 +134,7 @@ export default function InputForm(props){ // setFormVisible, type, fileStructure
         for(let i in location){
           if(location[i] === props.ele){
             location.splice(i, 1);
-            location.push({name: `${inputName}`, type: 'file', number: newNumber, level:props.level});
+            location.push({name: `${inputName}`, type: props.type, number: newNumber, level:props.level});
             props.setFileStructure(location);
           }
         }

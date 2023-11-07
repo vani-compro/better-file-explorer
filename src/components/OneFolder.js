@@ -8,6 +8,7 @@ import { useState } from 'react';
 import InputForm from './InputForm';
 import RenderFileStructure from './RenderFileStructure';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const WhiteButton = styled(Button)`
     background: transparent;
@@ -38,6 +39,7 @@ export default function OneFolder(props){
   const [formVisible, setFormVisible] = useState(false);
   const [currentFolder, setCurrentFolder] = useState('');
   const [deleted, setDeleted] = useState(false);
+  const [editFormVisible, setEditFormVisible] = useState(false);
 
   function nameBtnClicked(){
     setArrow(!arrow);
@@ -76,32 +78,43 @@ export default function OneFolder(props){
     console.log(props.fileStructure);
     setDeleted(true);
   }
+  function editBtnClicked(e, ele){
+    // alert('edit');
+    setDeleted(true)
+    setEditFormVisible(true);
+  }
   return (
-    !deleted && <li>
-      <FlexDiv>
-        <WhiteButton onClick={nameBtnClicked}>
-          <WhiteIconButton>
-            {arrow ? <KeyboardArrowDownIcon/> : <KeyboardArrowRightIcon />}
-          </WhiteIconButton>
-          <BoldTypography  title={props.ele.name}>{props.ele.name}</BoldTypography>
-        </WhiteButton>
+    <>
+    {!deleted && <li>
+        <FlexDiv>
+          <WhiteButton onClick={nameBtnClicked}>
+            <WhiteIconButton>
+              {arrow ? <KeyboardArrowDownIcon/> : <KeyboardArrowRightIcon />}
+            </WhiteIconButton>
+            <BoldTypography  title={props.ele.name}>{props.ele.name}</BoldTypography>
+          </WhiteButton>
 
-        <span>
-          <WhiteIconButton onClick={(e)=>deleteBtnClicked(e)}>
-            <DeleteIcon />
-          </WhiteIconButton>
-          <WhiteIconButton onClick={(e)=>createNew(e, "file", 0)}>
-            <NoteAddOutlinedIcon />
-          </WhiteIconButton>
-          <WhiteIconButton onClick={(e)=>createNew(e, "folder", 0)}>
-            <CreateNewFolderOutlinedIcon />
-          </WhiteIconButton>
-        </span>
-      </FlexDiv>
-      {arrow && <ul>
-        {formVisible && <InputForm setFormVisible={(val)=>setFormVisible(val)} type={type} fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)} currentFolder={currentFolder} level={props.level+1}/>}
-        <RenderFileStructure fileStructure={props.ele.children} level={props.level+1}/>
-      </ul>}
-    </li>
+          <span>
+            <WhiteIconButton onClick={(e)=>editBtnClicked(e, props.ele)}>
+              <EditIcon/>
+            </WhiteIconButton>
+            <WhiteIconButton onClick={(e)=>deleteBtnClicked(e)}>
+              <DeleteIcon />
+            </WhiteIconButton>
+            <WhiteIconButton onClick={(e)=>createNew(e, "file", 0)}>
+              <NoteAddOutlinedIcon />
+            </WhiteIconButton>
+            <WhiteIconButton onClick={(e)=>createNew(e, "folder", 0)}>
+              <CreateNewFolderOutlinedIcon />
+            </WhiteIconButton>
+          </span>
+        </FlexDiv>
+        {arrow && <ul>
+          {formVisible && <InputForm setFormVisible={(val)=>setFormVisible(val)} type={type} fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)} currentFolder={currentFolder} level={props.level+1}/>}
+          <RenderFileStructure fileStructure={props.ele.children} level={props.level+1}/>
+        </ul>}
+      </li>}
+      {editFormVisible && <InputForm setFormVisible={(val)=>setEditFormVisible(val)} type='folder' fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)} currentFolder={props.fileStructure} fromDelete='1' ele={props.ele} deleteBtnClicked={(e, ele)=> deleteBtnClicked(e, ele) } setRenderAgain={(val)=>props.setRenderAgain(val)} setDeleted={(val)=>setDeleted(val)} level={props.level}/>}
+    </>
   )
 }

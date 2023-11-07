@@ -103,7 +103,7 @@ function RenderFolders( props ){
   return (
     <>
     <li>
-      {props.ele.type==='folder' ? <OneFolder ele={props.ele} fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val) } level={props.level}/> : null }
+      {props.ele.type==='folder' ? <OneFolder ele={props.ele} fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val) } level={props.level} setRenderAgain={(val)=>props.setRenderAgain(val)}/> : null }
     </li>
     </>
   )
@@ -120,8 +120,8 @@ export default function RenderFileStructure(props){
 
   return (
     renderAgain && <>
-      {props.fileStructure.map((ele) => <RenderFiles fileStructure={props.fileStructure} fileType={props.fileType} ele={ele} setFileStructure={(val)=>props.setFileStructure(val)} setRenderAgain={(val)=>setRenderAgain(val)} />)}
-      {props.fileStructure.map((ele) => <RenderFolders fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val) } ele={ele} level={props.level} /> )}
+      {props.fileStructure.map((ele) => <RenderFiles fileStructure={props.fileStructure} fileType={props.fileType} ele={ele} setFileStructure={(val)=>props.setFileStructure(val)} setRenderAgain={(val)=>setRenderAgain(val)} level={props.level} />)}
+      {props.fileStructure.map((ele) => <RenderFolders fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val) } ele={ele} level={props.level} setRenderAgain={(val)=>setRenderAgain(val)}  /> )}
     </>
   )
 }
