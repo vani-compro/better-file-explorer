@@ -126,24 +126,7 @@ export default function InputForm(props){ // setFormVisible, type, fileStructure
   function formSubmitted(e){
     e.preventDefault();
     if(validations()){
-      if(props.fromDelete === '1' && props.type==='file'){
-        // props.setNewName(inputName);
-        let location = props.fileStructure;
-        let newNumber = props.ele.number;
-        // props.deleteBtnClicked(props.e, props.ele);
-        for(let i in location){
-          if(location[i] === props.ele){
-            location.splice(i, 1);
-            location.push({name: `${inputName}`, type: props.type, number: newNumber, level:props.level});
-            props.setFileStructure(location);
-          }
-        }
-        props.setFormVisible(false);
-        props.setRenderAgain(Math.ceil(Math.random()*10000));
-        props.setDeleted(false);
-        return;
-      }else if(props.fromDelete === '1'){
-        console.log(props.ele, props.fileStructure);
+      if(props.fromDelete === '1'){
         props.ele.name = `${inputName}`;
         props.setFormVisible(false);
         props.setRenderAgain(Math.ceil(Math.random()*10000));
