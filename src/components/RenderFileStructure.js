@@ -95,7 +95,7 @@ function RenderFiles( props ){
               </span>
           </> : null }
         </HoverableLi>}
-        {formVisible && <InputForm setFormVisible={(val)=>setFormVisible(val)} type='file' fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)} currentFolder={props.fileStructure} fromDelete='1' ele={props.ele} deleteBtnClicked={(e, ele)=> deleteBtnClicked(e, ele) } setRenderAgain={(val)=>props.setRenderAgain(val)} setDeleted={(val)=>setDeleted(val)} />}
+        {formVisible && <InputForm setFormVisible={(val)=>setFormVisible(val)} type='file' fileStructure={props.fileStructure} setFileStructure={(val)=>props.setFileStructure(val)} currentFolder={props.fileStructure} fromDelete='1' ele={props.ele} deleteBtnClicked={(e, ele)=> deleteBtnClicked(e, ele) } setRenderAgain={(val)=>props.setRenderAgain(val)} setDeleted={(val)=>setDeleted(val)} level={props.level}/>}
     </>
   )
 }
